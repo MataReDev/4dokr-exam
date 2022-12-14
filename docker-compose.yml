@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+    # The API image built before
+    api:
+      # Mon image crée précédement
+      image: matared/simple_api
+      #volumes: mount student_age.json file in /data/student_age.json
+      volumes:           
+          - '/4DOKR-FINALEXAM/simple_api/student_age.json:/data/student_age.json'
+      # port: expose the port
+      ports:
+          - '5000:5000'
+    
+    # The website user interface
+    web:
+      # image: PHP/Apache environment
+      image: 'php:apache'
+      # Variable d'environnement
+      # Provide username and password to enable the Web App to access the API by authentication
+      environment:
+          WEB_USER: matared
+          WEB_PWD: AjxURgEA8bLR
+      # volumes: to avoid the run with default website, bind the website given by POZOS
+      volumes:
+          - '/website:/var/www/html/'
+      # Doit attendre que le "service" api soit fonctionnel -> depends_on: make sure that the API will start first (before the website)
+      depends_on:
+          - 'api'
+          
+      # port: expose the port
+      ports:
+          - '8080:80'
