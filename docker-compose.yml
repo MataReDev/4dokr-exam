@@ -17,9 +17,8 @@ services:
       image: 'php:apache'
       # Variable d'environnement
       # Provide username and password to enable the Web App to access the API by authentication
-      environment:
-          WEB_USER: matared
-          WEB_PWD: AjxURgEA8bLR
+      env_file:
+        - .env
       # volumes: to avoid the run with default website, bind the website given by POZOS
       volumes:
           - '/website:/var/www/html/'
